@@ -1,18 +1,8 @@
 function compareArrays(arr1, arr2) {
-  let result;
-
-  if (arr1.length === arr2.length) {
-    result = arr1.every((element, index) => index === arr2.indexOf(element));    
-  } else {
-    result = false;
-  }
- 
-  return result;
+  return arr1.length === arr2.length && arr1.every((element, index) => element === arr2[index]);
 }
 
 
 function advancedFilter(arr) {
-  let resultArr = arr.filter(number => number > 0).filter(number => number % 3 === 0).map(number => number * 10);
-
-  return resultArr; 
+  return arr.filter(number => number > 0 && number % 3 === 0).map(number => number * 10);  
 }
