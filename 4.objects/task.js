@@ -26,14 +26,12 @@ Student.prototype.addMarks = function(...args) {
 
 Student.prototype.getAverage = function() {
   let sum = 0;
-  let avg;
-
+  
   for (let i = 0; i < this.marks.length; i += 1) {
-    sum += this.marks[i];
-    avg = sum / this.marks.length;
+    sum += this.marks[i];  
   }
 
-  return avg;
+  return sum / this.marks.length;
 }
 
 Student.prototype.exclude = function(reason) {
