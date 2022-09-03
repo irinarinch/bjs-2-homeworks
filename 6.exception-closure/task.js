@@ -1,9 +1,11 @@
 function parseCount(number) {
-    if (isNaN(Number.parseInt(number, 10)) === true) {
+    let result = Number.parseInt(number, 10);
+
+    if (isNaN(result) === true) {
         throw new Error("Невалидное значение");
     }
 
-    return Number.parseInt(number, 10);
+    return result;
 }
 
 function validateCount(number) {
@@ -26,8 +28,7 @@ class Triangle {
     }    
 
     getPerimeter() {
-        let result = this.a + this.b + this.c;
-        return + result.toFixed(3);
+        return this.a + this.b + this.c;
     }
 
     getArea() {
