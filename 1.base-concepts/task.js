@@ -1,23 +1,35 @@
 'use strict'; 
 
 function solveEquation(a, b, c) {
-  let arr = [];
-  let d = b ** 2 - 4 * a * c;
+  const discriminant = b ** 2 - 4 * a * c;
  
-  if (d === 0) {
-    arr[0] = -b / (2 * a);
-  } else if (d > 0) {
-    arr[0] = (-b + Math.sqrt(d)) / (2 * a);
-    arr[1] = (-b - Math.sqrt(d)) / (2 * a);
+  if (discriminant === 0) {
+    return [-b / (2 * a)];
+  } else if (discriminant > 0) {
+    return [(-b + Math.sqrt(discriminant)) / (2 * a), (-b - Math.sqrt(discriminant)) / (2 * a)];   
   }
-
-  return arr; 
+  return []; 
 }
 
 function calculateTotalMortgage(percent, contribution, amount, date) {
-  let totalAmount;
+  if (isNaN(Number(percent)) === true) {
+    return `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`
+  } 
+  
+  if (isNaN(Number(contribution)) === true) {
+    return `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`
+  } 
 
-  // код для задачи №2 писать здесь
+  if (isNaN(Number(amount)) === true) {
+    return `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`
+  }     
+  
+  let loanBody = amount - contribution; 
+  let termInMonths = (date.getMonth() - new Date().getMonth()) + ((date.getFullYear() - new Date().getFullYear()) * 12);
 
-  return totalAmount;
+  const p = (percent / 100) / 12;
+  const payment = loanBody * (p + (p / (((1 + p)**termInMonths) - 1)));
+  
+  return +(payment * termInMonths).toFixed(2);
 }
+ 
