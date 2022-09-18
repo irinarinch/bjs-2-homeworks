@@ -1,33 +1,50 @@
 function cachingDecoratorNew(func) {
   let cache = [];
+
   function wrapper(...args) {
-    const hash = args.join(',');
-    let objectInCache = cache.find((item) =>  {
-      console.log('Из кэша: ' + result);
-      return 'Из кэша: ' + result;
-    }
-  }
- 
- 
-  return (...args) => {
-    const hash = args.join(',');
-    const result = func(...args);
-    if (hash in cache) {
-      
-      console.log('Из кэша: ' + result);
-      return 'Из кэша: ' + result;
-    }
-
+    const hash = args.toString(); 
     
-    cache[hash] = result;
+    let objectInCache = cache.findIndex((item) => item.hash === hash); 
+    if (objectInCache !== -1) { 
+        console.log("Из кэша: " + cache[objectInCache].result); 
+        return "Из кэша: " + cache[objectInCache].result;
+    }
+
+    let result = func(...args); 
+    cache.push({hash, result}); 
+    if (cache.length > 5) { 
+      cache.shift();
+    }
     console.log("Вычисляем: " + result);
-    return 'Вычисляем: ' + result;
-  }
+    return "Вычисляем: " + result;  
+}
+  return wrapper;
 }
 
-const addThree = (a, b, c) => a + b + c;
-const upgradedAddThree = cachingDecoratorNew(addThree);
 
-function debounceDecoratorNew(func) {
-  // Ваш код
-}
+function debounceDecoratorNew(func, delay) {
+  let timeoutId = null;
+
+  function wrapper(...args) {
+    if (!timeoutId) {
+      func(...args);
+      wrapper.count++;            
+    }
+    clearTimeout(timeoutId);     
+    
+    timeoutId = setTimeout(() => {
+      func(...args);
+      wrapper.count++;                
+    }, delay); 
+    
+    wrapper.allCount++;    
+  }    
+  
+  wrapper.count = 0;  
+  wrapper.allCount = 0;
+
+  return wrapper;
+} 
+
+
+
